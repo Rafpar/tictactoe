@@ -42,7 +42,7 @@ export class GameController {
       return;
     } else {
       await this.gameService.startGame(gameSetupDto);
-      res.status(HttpStatus.CREATED).json({ message: 'game started' }).send();
+      res.status(HttpStatus.CREATED).json({ message: 'Game started' }).send();
     }
   }
 
@@ -51,7 +51,7 @@ export class GameController {
     this.gameService.finishGame();
     res
       .status(HttpStatus.OK)
-      .json({ message: 'game finished, all data removed' })
+      .json({ message: 'Game finished, all data removed' })
       .send();
   }
 }
