@@ -31,6 +31,15 @@ export class GameController {
         })
         .send();
       return;
+    }
+    if (this.gameService.isPlayersNamesTheSame(gameSetupDto)) {
+      res
+        .status(HttpStatus.OK)
+        .json({
+          message: 'Players names are the same, please use different names!',
+        })
+        .send();
+      return;
     } else {
       await this.gameService.startGame(gameSetupDto);
       res.status(HttpStatus.CREATED).json({ message: 'game started' }).send();

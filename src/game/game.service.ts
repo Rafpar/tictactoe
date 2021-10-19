@@ -17,4 +17,7 @@ export class GameService {
     this.playersService.removePlayers();
     return;
   }
+  isPlayersNamesTheSame(gameSetupDto: GameSetupDto) {
+    return gameSetupDto.player1Name === gameSetupDto.player2Name;
+  }
 }
