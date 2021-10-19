@@ -9,19 +9,23 @@ Tic Tac Toe Game with usage of rest API
 mongodb://localhost/tictactoe
 ```
 2. Download [Nodejs](https://nodejs.org/en/) and install
-3. Install Nest CLI
+3. Clone project and enter project directory
+```
+git clone https://github.com/Rafpar/tictactoe.git
+```
+4. Install Nest CLI
 ```
 npm i -g @nestjs/cli
 ```
-4. Install Mongoose a MongoDB modeling tool
+5. Install Mongoose a MongoDB modeling tool
 ```
 npm install --save @nestjs/mongoose mongoose
 ```
-5. Install validation library
+6. Install validation library
 ```
 npm i --save class-validator class-transformer
 ```
-6. Install Swagger module
+7. Install Swagger module
 ```
 npm install --save @nestjs/swagger swagger-ui-express
 ```
