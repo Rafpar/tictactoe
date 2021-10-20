@@ -7,7 +7,7 @@ import {
   Patch,
   Res,
 } from '@nestjs/common';
-import { BoardService } from './board.service';
+import { BoardService } from './service/board.service';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { Response } from 'express';
 import { PlayersService } from '../players/players.service';

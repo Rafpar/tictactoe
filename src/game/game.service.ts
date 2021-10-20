@@ -1,4 +1,4 @@
-import { BoardService } from '../board/board.service';
+import { BoardService } from '../board/service/board.service';
 import { Injectable } from '@nestjs/common';
 import { GameSetupDto } from './dto/game-setup.dto';
 import { PlayersService } from '../players/players.service';

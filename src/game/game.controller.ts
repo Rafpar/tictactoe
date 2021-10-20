@@ -9,7 +9,7 @@ import {
 import { GameService } from './game.service';
 import { Response } from 'express';
 import { GameSetupDto } from './dto/game-setup.dto';
-import { BoardService } from '../board/board.service';
+import { BoardService } from '../board/service/board.service';
 
 @Controller('game')
 export class GameController {

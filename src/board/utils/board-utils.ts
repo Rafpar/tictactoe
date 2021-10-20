@@ -1,4 +1,4 @@
-import { Board } from '../schemas/board.schema';
+import { BoardEntity } from '../schemas/board.schema';
 
 export class BoardUtils {
   A;
@@ -6,12 +6,12 @@ export class BoardUtils {
   C;
   board;
 
-  constructor(board: Board) {
+  constructor(board: BoardEntity) {
     this.setupBoardFields(board);
     this.renderBoard(board);
   }
 
-  setupBoardFields(board: Board) {
+  setupBoardFields(board: BoardEntity) {
     this.A = { A1: board.A1, A2: board.A2, A3: board.A3 };
     this.B = { B1: board.B1, B2: board.B2, B3: board.B3 };
     this.C = { C1: board.C1, C2: board.C2, C3: board.C3 };
@@ -29,7 +29,7 @@ export class BoardUtils {
     return emptyFieldCount;
   }
 
-  renderBoard(board: Board) {
+  renderBoard(board: BoardEntity) {
     this.board =
       '_' +
       this.renderField(board.A1) +

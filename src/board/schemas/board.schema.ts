@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type BoardDocument = Board & Document;
+export type BoardDocument = BoardEntity & Document;
 
 @Schema()
-export class Board {
+export class BoardEntity {
   @Prop()
   locked: boolean;
   @Prop()
@@ -27,4 +27,4 @@ export class Board {
   C3: string;
 }
 
-export const BoardSchema = SchemaFactory.createForClass(Board);
+export const BoardSchema = SchemaFactory.createForClass(BoardEntity);

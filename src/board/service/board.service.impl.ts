@@ -1,24 +1,26 @@
+import { Board } from '../interfaces/board';
 import { InjectModel } from '@nestjs/mongoose';
-import { Board, BoardDocument } from './schemas/board.schema';
+import { BoardEntity } from '../schemas/board.schema';
 import { Model } from 'mongoose';
+import { Players, PlayersDocument } from '../../players/schemas/players.schema';
+import { PlayersService } from '../../players/players.service';
+import { GameSetupDto } from '../../game/dto/game-setup.dto';
+import { CreatePlayersDto } from '../../players/dto/create-players.dto';
+import { BoardUtils } from '../utils/board-utils';
 import { Injectable } from '@nestjs/common';
-import { CreateBoardDto } from './dto/create-board.dto';
-import { Players, PlayersDocument } from '../players/schemas/players.schema';
-import { CreatePlayersDto } from '../players/dto/create-players.dto';
-import { GameSetupDto } from '../game/dto/game-setup.dto';
-import { BoardUtils } from './dto/board-utils';
-import { PlayersService } from '../players/players.service';
+import { UpdateBoardDto } from '../dto/update-board.dto';
+import { BoardRepositoryImpl } from '../repository/board.repository.impl';
 
 @Injectable()
-export class BoardService {
+export class BoardServiceImpl implements Board {
   constructor(
-    @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
     @InjectModel(Players.name) private playersModel: Model<PlayersDocument>,
+    private readonly boardRepository: BoardRepositoryImpl,
     private readonly playersService: PlayersService,
   ) {}
 
-  async createBoard(gameSetupDto: GameSetupDto): Promise<Board> {
-    const createdBoard = new this.boardModel(new CreateBoardDto());
+  async createBoard(gameSetupDto: GameSetupDto): Promise<BoardEntity> {
+    const createdBoard = this.boardRepository.createBoard();
     const createdPlayers = new this.playersModel(
       new CreatePlayersDto(gameSetupDto),
     );
@@ -26,13 +28,13 @@ export class BoardService {
       return;
     } else {
       await createdPlayers.save();
-      await createdBoard.save();
+      await this.boardRepository.saveBoard(createdBoard);
     }
     return;
   }
 
-  async getAllBoards(): Promise<Board[]> {
-    return this.boardModel.find().exec();
+  async getAllBoards(): Promise<BoardEntity[]> {
+    return await this.boardRepository.getAllBoards();
   }
 
   async isBoardAlreadyCreated(): Promise<boolean> {
@@ -42,27 +44,27 @@ export class BoardService {
   }
 
   async renderBoard() {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     const boardUtils = new BoardUtils(board);
     return boardUtils.getBoard();
   }
 
   async removeBoard() {
-    return await this.boardModel.deleteOne().exec();
+    return await this.boardRepository.deleteBoard();
   }
 
-  async updateBoard(fieldNumber, updateBoardDto) {
-    const board = await this.boardModel.findOne();
+  async updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto) {
+    const board = await this.boardRepository.getBoard();
     board[fieldNumber] = await this.playersService.getPlayerSymbol(
       updateBoardDto.playerName,
     );
-    await board.save();
+    await this.boardRepository.saveBoard(board);
     await this.playersService.setPlayerTurn(updateBoardDto.playerName);
     return board;
   }
 
   async isFieldAlreadyFilled(fieldNumber: string): Promise<boolean> {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     return board[fieldNumber] !== null;
   }
 
@@ -71,7 +73,7 @@ export class BoardService {
   }
 
   async isWinner(fieldNumber: string): Promise<boolean> {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     const winCombinations = this.getWinCombinationsFor(fieldNumber);
     const wonCombination = this.resolveWonCombination(
       winCombinations,
@@ -82,13 +84,13 @@ export class BoardService {
   }
 
   async lockBoard() {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     board.locked = true;
-    await board.save();
+    await this.boardRepository.saveBoard(board);
   }
 
   async isBoardLocked(): Promise<boolean> {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     return board.locked;
   }
 
@@ -120,14 +122,14 @@ export class BoardService {
   }
 
   async isDraw() {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     const boardUtils = new BoardUtils(board);
     const emptyFieldsCount = boardUtils.getEmptyFieldsCount();
     return emptyFieldsCount === 0;
   }
 
   async isGameStarted() {
-    const board = await this.boardModel.findOne();
+    const board = await this.boardRepository.getBoard();
     return board !== null;
   }
 
