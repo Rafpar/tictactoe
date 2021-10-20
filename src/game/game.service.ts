@@ -1,7 +1,7 @@
 import { BoardService } from '../board/service/board.service';
 import { Injectable } from '@nestjs/common';
 import { GameSetupDto } from './dto/game-setup.dto';
-import { PlayersService } from '../players/players.service';
+import { PlayersService } from '../players/service/players.service';
 
 @Injectable()
 export class GameService {

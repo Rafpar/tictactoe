@@ -2,9 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Player } from '../dto/player';
 
-export type PlayersDocument = Players & Document;
+export type PlayersDocument = PlayersEntity & Document;
 @Schema()
-export class Players {
+export class PlayersEntity {
   @Prop()
   player1: Player;
   @Prop()
@@ -13,4 +13,4 @@ export class Players {
   turn: string;
 }
 
-export const PlayersSchema = SchemaFactory.createForClass(Players);
+export const PlayersSchema = SchemaFactory.createForClass(PlayersEntity);

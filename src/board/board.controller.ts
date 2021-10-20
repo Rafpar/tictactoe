@@ -10,7 +10,7 @@ import {
 import { BoardService } from './service/board.service';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { Response } from 'express';
-import { PlayersService } from '../players/players.service';
+import { PlayersService } from '../players/service/players.service';
 
 @Controller('board')
 export class BoardController {

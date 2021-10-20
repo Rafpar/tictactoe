@@ -1,33 +1,28 @@
 import { Board } from '../interfaces/board';
-import { InjectModel } from '@nestjs/mongoose';
 import { BoardEntity } from '../schemas/board.schema';
-import { Model } from 'mongoose';
-import { Players, PlayersDocument } from '../../players/schemas/players.schema';
-import { PlayersService } from '../../players/players.service';
+import { PlayersService } from '../../players/service/players.service';
 import { GameSetupDto } from '../../game/dto/game-setup.dto';
-import { CreatePlayersDto } from '../../players/dto/create-players.dto';
 import { BoardUtils } from '../utils/board-utils';
 import { Injectable } from '@nestjs/common';
 import { UpdateBoardDto } from '../dto/update-board.dto';
 import { BoardRepositoryImpl } from '../repository/board.repository.impl';
+import { PlayersRepositoryImpl } from '../../players/repository/players.repository.impl';
 
 @Injectable()
 export class BoardServiceImpl implements Board {
   constructor(
-    @InjectModel(Players.name) private playersModel: Model<PlayersDocument>,
+    private readonly playersRepository: PlayersRepositoryImpl,
     private readonly boardRepository: BoardRepositoryImpl,
     private readonly playersService: PlayersService,
   ) {}
 
   async createBoard(gameSetupDto: GameSetupDto): Promise<BoardEntity> {
     const createdBoard = this.boardRepository.createBoard();
-    const createdPlayers = new this.playersModel(
-      new CreatePlayersDto(gameSetupDto),
-    );
+    const createdPlayers = this.playersRepository.createPlayers(gameSetupDto);
     if (await this.isBoardAlreadyCreated()) {
       return;
     } else {
-      await createdPlayers.save();
+      await this.playersRepository.savePlayers(createdPlayers);
       await this.boardRepository.saveBoard(createdBoard);
     }
     return;
