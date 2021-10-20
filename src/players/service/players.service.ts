@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { PlayersServiceImpl } from './players.service.impl';
+import { PlayersImpl } from './players.impl';
 
 @Injectable()
 export class PlayersService {
-  constructor(private readonly playersServiceImpl: PlayersServiceImpl) {}
+  constructor(private readonly playersImpl: PlayersImpl) {}
 
   async removePlayers() {
-    return await this.playersServiceImpl.removePlayers();
+    return await this.playersImpl.removePlayers();
   }
 
   async isCurrentPlayerTurn(currentPlayerName: string): Promise<boolean> {
-    return await this.playersServiceImpl.isCurrentPlayerTurn(currentPlayerName);
+    return await this.playersImpl.isCurrentPlayerTurn(currentPlayerName);
   }
 
   async setPlayerTurn(currenPlayerName: string) {
-    return await this.playersServiceImpl.setPlayerTurn(currenPlayerName);
+    return await this.playersImpl.setPlayerTurn(currenPlayerName);
   }
 
   async getPlayerSymbol(playerName: string): Promise<string> {
-    return await this.playersServiceImpl.getPlayerSymbol(playerName);
+    return await this.playersImpl.getPlayerSymbol(playerName);
   }
 }

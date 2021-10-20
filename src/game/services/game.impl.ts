@@ -5,7 +5,7 @@ import { PlayersService } from '../../players/service/players.service';
 import { Game } from '../interfaces/game';
 
 @Injectable()
-export class GameServiceImpl implements Game {
+export class GameImpl implements Game {
   constructor(
     private readonly boardService: BoardService,
     private readonly playersService: PlayersService,

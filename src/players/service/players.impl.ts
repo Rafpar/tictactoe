@@ -3,7 +3,7 @@ import { Players } from '../interfaces/players';
 import { PlayersRepositoryImpl } from '../repository/players.repository.impl';
 
 @Injectable()
-export class PlayersServiceImpl implements Players {
+export class PlayersImpl implements Players {
   constructor(private readonly playersRepository: PlayersRepositoryImpl) {}
 
   async removePlayers() {

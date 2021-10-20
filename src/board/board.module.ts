@@ -7,7 +7,7 @@ import {
   PlayersSchema,
 } from '../players/schemas/players.schema';
 import { PlayersModule } from '../players/players.module';
-import { BoardServiceImpl } from './service/board.service.impl';
+import { BoardImpl } from './service/board.impl';
 import { BoardRepositoryImpl } from './repository/board.repository.impl';
 import { PlayersRepositoryImpl } from '../players/repository/players.repository.impl';
 
@@ -19,7 +19,7 @@ import { PlayersRepositoryImpl } from '../players/repository/players.repository.
   ],
   providers: [
     BoardService,
-    BoardServiceImpl,
+    BoardImpl,
     BoardRepositoryImpl,
     PlayersRepositoryImpl,
   ],

@@ -4,11 +4,11 @@ import { BoardModule } from '../board/board.module';
 import { GameService } from './services/game.service';
 import { BoardController } from '../board/board.controller';
 import { PlayersModule } from '../players/players.module';
-import { GameServiceImpl } from './services/game.service.impl';
+import { GameImpl } from './services/game.impl';
 
 @Module({
   imports: [BoardModule, PlayersModule],
   controllers: [GameController, BoardController],
-  providers: [GameService, GameServiceImpl],
+  providers: [GameService, GameImpl],
 })
 export class GameModule {}

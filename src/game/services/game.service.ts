@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { GameSetupDto } from '../dto/game-setup.dto';
-import { GameServiceImpl } from './game.service.impl';
+import { GameImpl } from './game.impl';
 
 @Injectable()
 export class GameService {
-  constructor(private readonly gameServiceImpl: GameServiceImpl) {}
+  constructor(private readonly gameImpl: GameImpl) {}
   startGame(gameSetupDto: GameSetupDto) {
-    return this.gameServiceImpl.startGame(gameSetupDto);
+    return this.gameImpl.startGame(gameSetupDto);
   }
   finishGame() {
-    return this.gameServiceImpl.finishGame();
+    return this.gameImpl.finishGame();
   }
   isPlayersNamesTheSame(gameSetupDto: GameSetupDto) {
-    return this.gameServiceImpl.isPlayersNamesTheSame(gameSetupDto);
+    return this.gameImpl.isPlayersNamesTheSame(gameSetupDto);
   }
 }

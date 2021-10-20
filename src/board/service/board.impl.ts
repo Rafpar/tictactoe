@@ -9,7 +9,7 @@ import { BoardRepositoryImpl } from '../repository/board.repository.impl';
 import { PlayersRepositoryImpl } from '../../players/repository/players.repository.impl';
 
 @Injectable()
-export class BoardServiceImpl implements Board {
+export class BoardImpl implements Board {
   constructor(
     private readonly playersRepository: PlayersRepositoryImpl,
     private readonly boardRepository: BoardRepositoryImpl,

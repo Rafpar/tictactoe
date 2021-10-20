@@ -1,50 +1,50 @@
 import { BoardEntity } from '../schemas/board.schema';
 import { Injectable } from '@nestjs/common';
 import { GameSetupDto } from '../../game/dto/game-setup.dto';
-import { BoardServiceImpl } from './board.service.impl';
+import { BoardImpl } from './board.impl';
 import { UpdateBoardDto } from '../dto/update-board.dto';
 
 @Injectable()
 export class BoardService {
-  constructor(private readonly boardServiceImpl: BoardServiceImpl) {}
+  constructor(private readonly boardImpl: BoardImpl) {}
 
   async createBoard(gameSetupDto: GameSetupDto): Promise<BoardEntity> {
-    return await this.boardServiceImpl.createBoard(gameSetupDto);
+    return await this.boardImpl.createBoard(gameSetupDto);
   }
 
   async isGameStarted() {
-    return await this.boardServiceImpl.isGameStarted();
+    return await this.boardImpl.isGameStarted();
   }
 
   async renderBoard() {
-    return await this.boardServiceImpl.renderBoard();
+    return await this.boardImpl.renderBoard();
   }
 
   async isBoardLocked(): Promise<boolean> {
-    return await this.boardServiceImpl.isBoardLocked();
+    return await this.boardImpl.isBoardLocked();
   }
 
   async isFieldAlreadyFilled(fieldNumber: string): Promise<boolean> {
-    return await this.boardServiceImpl.isFieldAlreadyFilled(fieldNumber);
+    return await this.boardImpl.isFieldAlreadyFilled(fieldNumber);
   }
 
   async isGameFinished(fieldNumber: string): Promise<boolean> {
-    return await this.boardServiceImpl.isGameFinished(fieldNumber);
+    return await this.boardImpl.isGameFinished(fieldNumber);
   }
 
   async lockBoard() {
-    await this.boardServiceImpl.lockBoard();
+    await this.boardImpl.lockBoard();
   }
 
   async isWinner(fieldNumber: string): Promise<boolean> {
-    return await this.boardServiceImpl.isWinner(fieldNumber);
+    return await this.boardImpl.isWinner(fieldNumber);
   }
 
   async updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto) {
-    return await this.boardServiceImpl.updateBoard(fieldNumber, updateBoardDto);
+    return await this.boardImpl.updateBoard(fieldNumber, updateBoardDto);
   }
 
   async removeBoard() {
-    return await this.boardServiceImpl.removeBoard();
+    return await this.boardImpl.removeBoard();
   }
 }
