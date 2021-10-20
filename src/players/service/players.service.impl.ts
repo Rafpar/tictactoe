@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Players } from '../interfaces/Players';
+import { Players } from '../interfaces/players';
 import { PlayersRepositoryImpl } from '../repository/players.repository.impl';
 
 @Injectable()

@@ -6,7 +6,7 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
-import { GameService } from './game.service';
+import { GameService } from './services/game.service';
 import { Response } from 'express';
 import { GameSetupDto } from './dto/game-setup.dto';
 import { BoardService } from '../board/service/board.service';
