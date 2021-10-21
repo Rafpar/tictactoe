@@ -8,8 +8,8 @@ export class GameService {
   startGame(gameSetupDto: GameSetupDto) {
     return this.gameImpl.startGame(gameSetupDto);
   }
-  finishGame() {
-    return this.gameImpl.finishGame();
+  finishGame(boardId) {
+    return this.gameImpl.finishGame(boardId);
   }
   isPlayersNamesTheSame(gameSetupDto: GameSetupDto) {
     return this.gameImpl.isPlayersNamesTheSame(gameSetupDto);

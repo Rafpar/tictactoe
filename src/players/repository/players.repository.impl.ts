@@ -13,11 +13,11 @@ export class PlayersRepositoryImpl implements PlayersRepository {
     private playersModel: Model<PlayersDocument>,
   ) {}
 
-  async deletePlayers() {
-    return await this.playersModel.deleteOne().exec();
+  async deletePlayers(playersId: number) {
+    return await this.playersModel.findByIdAndDelete(playersId).exec();
   }
-  async findPlayers() {
-    return this.playersModel.findOne();
+  async findPlayers(playersId: number) {
+    return this.playersModel.findById(playersId);
   }
   async savePlayers(players) {
     return await players.save();

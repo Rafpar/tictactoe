@@ -19,7 +19,7 @@ export class BoardImpl implements Board {
   async createBoard(gameSetupDto: GameSetupDto): Promise<BoardEntity> {
     const createdBoard = this.boardRepository.createBoard(gameSetupDto);
     const createdPlayers = this.playersRepository.createPlayers(gameSetupDto);
-    if (await this.isBoardAlreadyCreated()) {
+    if (await this.isBoardAlreadyCreated(gameSetupDto.id)) {
       return;
     } else {
       await this.playersRepository.savePlayers(createdPlayers);
@@ -28,47 +28,45 @@ export class BoardImpl implements Board {
     return;
   }
 
-  async getAllBoards(): Promise<BoardEntity[]> {
-    return await this.boardRepository.getAllBoards();
+  async isBoardAlreadyCreated(boardId): Promise<boolean> {
+    return (await this.boardRepository.getBoard(boardId)) !== null;
   }
 
-  async isBoardAlreadyCreated(): Promise<boolean> {
-    return this.getAllBoards().then((value) => {
-      return value.length > 0;
-    });
-  }
-
-  async renderBoard() {
-    const board = await this.boardRepository.getBoard();
+  async renderBoard(boardId) {
+    const board = await this.boardRepository.getBoard(boardId);
     const boardUtils = new BoardUtils(board);
     return boardUtils.getBoard();
   }
 
-  async removeBoard() {
-    return await this.boardRepository.deleteBoard();
+  async removeBoard(boardId) {
+    return await this.boardRepository.deleteBoard(boardId);
   }
 
-  async updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto) {
-    const board = await this.boardRepository.getBoard();
+  async updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto, boardId: number) {
+    const board = await this.boardRepository.getBoard(boardId);
     board[fieldNumber] = await this.playersService.getPlayerSymbol(
       updateBoardDto.playerName,
+      boardId,
     );
     await this.boardRepository.saveBoard(board);
-    await this.playersService.setPlayerTurn(updateBoardDto.playerName);
+    await this.playersService.setPlayerTurn(updateBoardDto.playerName, boardId);
     return board;
   }
 
-  async isFieldAlreadyFilled(fieldNumber: string): Promise<boolean> {
-    const board = await this.boardRepository.getBoard();
+  async isFieldAlreadyFilled(fieldNumber: string, boardId: number): Promise<boolean> {
+    const board = await this.boardRepository.getBoard(boardId);
     return board[fieldNumber] !== null;
   }
 
-  async isGameFinished(fieldNumber: string): Promise<boolean> {
-    return (await this.isWinner(fieldNumber)) || (await this.isDraw());
+  async isGameFinished(fieldNumber: string, boardId: number): Promise<boolean> {
+    return (
+      (await this.isWinner(fieldNumber, boardId)) ||
+      (await this.isDraw(boardId))
+    );
   }
 
-  async isWinner(fieldNumber: string): Promise<boolean> {
-    const board = await this.boardRepository.getBoard();
+  async isWinner(fieldNumber: string, boardId: number): Promise<boolean> {
+    const board = await this.boardRepository.getBoard(boardId);
     const winCombinations = this.getWinCombinationsFor(fieldNumber);
     const wonCombination = this.resolveWonCombination(
       winCombinations,
@@ -78,14 +76,14 @@ export class BoardImpl implements Board {
     return wonCombination.length === 1;
   }
 
-  async lockBoard() {
-    const board = await this.boardRepository.getBoard();
+  async lockBoard(boardId: number) {
+    const board = await this.boardRepository.getBoard(boardId);
     board.locked = true;
     await this.boardRepository.saveBoard(board);
   }
 
-  async isBoardLocked(): Promise<boolean> {
-    const board = await this.boardRepository.getBoard();
+  async isBoardLocked(boardId: number): Promise<boolean> {
+    const board = await this.boardRepository.getBoard(boardId);
     return board.locked;
   }
 
@@ -116,15 +114,15 @@ export class BoardImpl implements Board {
     return wonCombination;
   }
 
-  async isDraw() {
-    const board = await this.boardRepository.getBoard();
+  async isDraw(boardId: number) {
+    const board = await this.boardRepository.getBoard(boardId);
     const boardUtils = new BoardUtils(board);
     const emptyFieldsCount = boardUtils.getEmptyFieldsCount();
     return emptyFieldsCount === 0;
   }
 
-  async isGameStarted() {
-    const board = await this.boardRepository.getBoard();
+  async isGameStarted(boardId: number) {
+    const board = await this.boardRepository.getBoard(boardId);
     return board !== null;
   }
 

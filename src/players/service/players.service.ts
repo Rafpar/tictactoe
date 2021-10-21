@@ -5,19 +5,19 @@ import { PlayersImpl } from './players.impl';
 export class PlayersService {
   constructor(private readonly playersImpl: PlayersImpl) {}
 
-  async removePlayers() {
-    return await this.playersImpl.removePlayers();
+  async removePlayers(playersId: number) {
+    return await this.playersImpl.removePlayers(playersId);
   }
 
-  async isCurrentPlayerTurn(currentPlayerName: string): Promise<boolean> {
-    return await this.playersImpl.isCurrentPlayerTurn(currentPlayerName);
+  async isCurrentPlayerTurn(currentPlayerName: string, playersId: number): Promise<boolean> {
+    return await this.playersImpl.isCurrentPlayerTurn(currentPlayerName, playersId);
   }
 
-  async setPlayerTurn(currenPlayerName: string) {
-    return await this.playersImpl.setPlayerTurn(currenPlayerName);
+  async setPlayerTurn(currenPlayerName: string, playersId: number) {
+    return await this.playersImpl.setPlayerTurn(currenPlayerName, playersId);
   }
 
-  async getPlayerSymbol(playerName: string): Promise<string> {
-    return await this.playersImpl.getPlayerSymbol(playerName);
+  async getPlayerSymbol(playerName: string, playersId: number): Promise<string> {
+    return await this.playersImpl.getPlayerSymbol(playerName, playersId);
   }
 }

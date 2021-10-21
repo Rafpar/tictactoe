@@ -17,13 +17,10 @@ export class BoardRepositoryImpl implements BoardRepository {
   async saveBoard(board) {
     return await board.save();
   }
-  async getAllBoards(): Promise<BoardEntity[]> {
-    return await this.boardModel.find().exec();
+  async getBoard(id) {
+    return this.boardModel.findById(id).exec();
   }
-  async getBoard() {
-    return this.boardModel.findOne().exec();
-  }
-  async deleteBoard() {
-    return await this.boardModel.deleteOne().exec();
+  async deleteBoard(id) {
+    return await this.boardModel.findByIdAndDelete(id).exec();
   }
 }

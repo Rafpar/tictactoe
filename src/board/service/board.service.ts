@@ -12,39 +12,39 @@ export class BoardService {
     return await this.boardImpl.createBoard(gameSetupDto);
   }
 
-  async isGameStarted() {
-    return await this.boardImpl.isGameStarted();
+  async isGameStarted(boardId: number) {
+    return await this.boardImpl.isGameStarted(boardId);
   }
 
-  async renderBoard() {
-    return await this.boardImpl.renderBoard();
+  async renderBoard(boardId) {
+    return await this.boardImpl.renderBoard(boardId);
   }
 
-  async isBoardLocked(): Promise<boolean> {
-    return await this.boardImpl.isBoardLocked();
+  async isBoardLocked(boardId: number): Promise<boolean> {
+    return await this.boardImpl.isBoardLocked(boardId);
   }
 
-  async isFieldAlreadyFilled(fieldNumber: string): Promise<boolean> {
-    return await this.boardImpl.isFieldAlreadyFilled(fieldNumber);
+  async isFieldAlreadyFilled(fieldNumber: string, boardId: number): Promise<boolean> {
+    return await this.boardImpl.isFieldAlreadyFilled(fieldNumber, boardId);
   }
 
-  async isGameFinished(fieldNumber: string): Promise<boolean> {
-    return await this.boardImpl.isGameFinished(fieldNumber);
+  async isGameFinished(fieldNumber: string, boardId: number): Promise<boolean> {
+    return await this.boardImpl.isGameFinished(fieldNumber, boardId);
   }
 
-  async lockBoard() {
-    await this.boardImpl.lockBoard();
+  async lockBoard(boardId: number) {
+    await this.boardImpl.lockBoard(boardId);
   }
 
-  async isWinner(fieldNumber: string): Promise<boolean> {
-    return await this.boardImpl.isWinner(fieldNumber);
+  async isWinner(fieldNumber: string, boardId: number): Promise<boolean> {
+    return await this.boardImpl.isWinner(fieldNumber, boardId);
   }
 
-  async updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto) {
-    return await this.boardImpl.updateBoard(fieldNumber, updateBoardDto);
+  async updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto, boardId) {
+    return await this.boardImpl.updateBoard(fieldNumber, updateBoardDto, boardId);
   }
 
-  async removeBoard() {
-    return await this.boardImpl.removeBoard();
+  async removeBoard(boardId: number) {
+    return await this.boardImpl.removeBoard(boardId);
   }
 }

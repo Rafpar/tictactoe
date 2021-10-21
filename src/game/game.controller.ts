@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   HttpStatus,
+  Param,
   Post,
   Res,
 } from '@nestjs/common';
@@ -23,7 +24,7 @@ export class GameController {
     @Body() gameSetupDto: GameSetupDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    if (await this.boardService.isGameStarted()) {
+    if (await this.boardService.isGameStarted(gameSetupDto.id)) {
       res
         .status(HttpStatus.OK)
         .json({
@@ -42,16 +43,26 @@ export class GameController {
       return;
     } else {
       await this.gameService.startGame(gameSetupDto);
-      res.status(HttpStatus.CREATED).json({ message: 'Game started' }).send();
+      res.status(HttpStatus.CREATED).json({ message: 'Game started with id ' + gameSetupDto.id }).send();
     }
   }
 
-  @Delete('finish')
-  remove(@Res({ passthrough: true }) res: Response) {
-    this.gameService.finishGame();
-    res
-      .status(HttpStatus.OK)
-      .json({ message: 'Game finished, all data removed' })
-      .send();
+  @Delete('finish/:id')
+  async remove(
+    @Param('id') boardId: number,
+    @Res({ passthrough: true }) res: Response) {
+    if (await this.boardService.isGameStarted(boardId)) {
+      await this.gameService.finishGame(boardId);
+      res
+        .status(HttpStatus.OK)
+        .json({ message: 'Game wit id ' + boardId + ' finished, all data removed' })
+        .send();
+      return;
+    } else {
+      res
+        .status(HttpStatus.OK)
+        .json({ message: 'Game with id ' + boardId + ' not started yet' })
+        .send();
+    }
   }
 }

@@ -1,6 +1,6 @@
 export interface Players {
-  removePlayers();
-  isCurrentPlayerTurn(currentPlayerName: string): Promise<boolean>;
-  setPlayerTurn(currenPlayerName: string);
-  getPlayerSymbol(playerName: string): Promise<string>;
+  removePlayers(playersId: number);
+  isCurrentPlayerTurn(currentPlayerName: string, playersId: number): Promise<boolean>;
+  setPlayerTurn(currenPlayerName: string, playersId: number);
+  getPlayerSymbol(playerName: string, playersId: number): Promise<string>;
 }

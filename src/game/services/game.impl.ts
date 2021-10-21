@@ -13,9 +13,9 @@ export class GameImpl implements Game {
   async startGame(gameSetupDto: GameSetupDto) {
     return await this.boardService.createBoard(gameSetupDto);
   }
-  async finishGame() {
-    await this.boardService.removeBoard();
-    await this.playersService.removePlayers();
+  async finishGame(boardId) {
+    await this.boardService.removeBoard(boardId);
+    await this.playersService.removePlayers(boardId);
     return;
   }
   isPlayersNamesTheSame(gameSetupDto: GameSetupDto) {

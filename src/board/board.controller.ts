@@ -18,29 +18,33 @@ export class BoardController {
     private readonly boardService: BoardService,
     private readonly playersService: PlayersService,
   ) {}
-  @Get()
-  async getBoard(@Res({ passthrough: true }) res: Response) {
-    if (!(await this.boardService.isGameStarted())) {
+  @Get(':id')
+  async getBoard(
+    @Param('id') boardId: number,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (!(await this.boardService.isGameStarted(boardId))) {
       const message = 'Game is not started, please start the game';
       this.sendResponse(res, HttpStatus.NOT_FOUND, message);
       return;
     } else {
-      return this.boardService.renderBoard();
+      return this.boardService.renderBoard(boardId);
     }
   }
 
-  @Patch('field/:number')
+  @Patch(':id/field/:number')
   async updateField(
+    @Param('id') boardId: number,
     @Param('number') fieldNumber: string,
     @Body() updateBoardDto: UpdateBoardDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    if (!(await this.boardService.isGameStarted())) {
+    if (!(await this.boardService.isGameStarted(boardId))) {
       const message = 'Game is not started, please start the game';
       this.sendResponse(res, HttpStatus.NOT_FOUND, message);
       return;
     }
-    if (await this.boardService.isBoardLocked()) {
+    if (await this.boardService.isBoardLocked(boardId)) {
       const message = 'Board is locked!, Game is finished!';
       this.sendResponse(res, HttpStatus.BAD_REQUEST, message);
       return;
@@ -48,20 +52,22 @@ export class BoardController {
     if (
       !(await this.playersService.isCurrentPlayerTurn(
         updateBoardDto.playerName,
+        boardId,
       ))
     ) {
       const message = 'It is not ' + updateBoardDto.playerName + ' turn';
       this.sendResponse(res, HttpStatus.BAD_REQUEST, message);
       return;
     }
-    if (!(await this.boardService.isFieldAlreadyFilled(fieldNumber))) {
+    if (!(await this.boardService.isFieldAlreadyFilled(fieldNumber, boardId))) {
       const board = await this.boardService.updateBoard(
         fieldNumber,
         updateBoardDto,
+        boardId,
       );
-      if (await this.boardService.isGameFinished(fieldNumber)) {
-        await this.boardService.lockBoard();
-        if (await this.boardService.isWinner(fieldNumber)) {
+      if (await this.boardService.isGameFinished(fieldNumber, boardId)) {
+        await this.boardService.lockBoard(boardId);
+        if (await this.boardService.isWinner(fieldNumber, boardId)) {
           const message = 'Game finished ' + updateBoardDto.playerName + ' won the game!';
           this.sendResponse(res, HttpStatus.OK, message);
           return; }

@@ -4,19 +4,18 @@ import { UpdateBoardDto } from '../dto/update-board.dto';
 
 export interface Board {
   createBoard(gameSetupDto: GameSetupDto): Promise<BoardEntity>;
-  getAllBoards(): Promise<BoardEntity[]>;
-  isBoardAlreadyCreated(): Promise<boolean>;
-  renderBoard();
-  removeBoard();
-  updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto);
-  isFieldAlreadyFilled(fieldNumber: string): Promise<boolean>;
-  isGameFinished(fieldNumber: string): Promise<boolean>;
-  isWinner(fieldNumber: string): Promise<boolean>;
-  lockBoard();
-  isBoardLocked(): Promise<boolean>;
+  isBoardAlreadyCreated(id: number): Promise<boolean>;
+  renderBoard(boardId: number);
+  removeBoard(boardId);
+  updateBoard(fieldNumber: string, updateBoardDto: UpdateBoardDto, boardId: number);
+  isFieldAlreadyFilled(fieldNumber: string, boardId: number): Promise<boolean>;
+  isGameFinished(fieldNumber: string, boardId: number): Promise<boolean>;
+  isWinner(fieldNumber: string, boardId: number): Promise<boolean>;
+  lockBoard(boardId: number);
+  isBoardLocked(boardId: number): Promise<boolean>;
   getWinCombinationsFor(fieldNumber: string);
   resolveWonCombination(winCombinations, fieldNumber, board);
-  isDraw();
-  isGameStarted();
+  isDraw(boardId: number);
+  isGameStarted(boardId: number);
   getAllWinCombinations();
 }

@@ -1,8 +1,8 @@
 import { GameSetupDto } from '../../game/dto/game-setup.dto';
 
 export interface PlayersRepository {
-  deletePlayers();
-  findPlayers();
+  deletePlayers(playersId: number);
+  findPlayers(playersId: number);
   savePlayers(players);
   createPlayers(gameSetupDto: GameSetupDto);
 }
