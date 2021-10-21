@@ -1,4 +1,7 @@
+import { GameSetupDto } from '../../game/dto/game-setup.dto';
+
 export class CreateBoardDto {
+  _id: number;
   locked: boolean;
   A1: string;
   A2: string;
@@ -10,11 +13,12 @@ export class CreateBoardDto {
   C2: string;
   C3: string;
 
-  constructor() {
-    this.setDefaultFieldValues();
+  constructor(gameSetupDto: GameSetupDto) {
+    this.setDefaultFieldValues(gameSetupDto);
   }
 
-  private setDefaultFieldValues() {
+  private setDefaultFieldValues(gameSetupDto: GameSetupDto) {
+    this._id = gameSetupDto.id;
     this.locked = false;
     this.A1 = null;
     this.A2 = null;

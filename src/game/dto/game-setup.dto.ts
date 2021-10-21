@@ -5,6 +5,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class GameSetupDto {
   @ApiProperty()
   @IsNotEmpty()
+  id: number;
+  @ApiProperty()
+  @IsNotEmpty()
   player1Name: string;
   @ApiProperty()
   @IsNotEmpty()

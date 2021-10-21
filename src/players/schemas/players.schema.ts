@@ -6,6 +6,8 @@ export type PlayersDocument = PlayersEntity & Document;
 @Schema()
 export class PlayersEntity {
   @Prop()
+  _id: number;
+  @Prop()
   player1: Player;
   @Prop()
   player2: Player;

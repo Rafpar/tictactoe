@@ -6,6 +6,8 @@ export type BoardDocument = BoardEntity & Document;
 @Schema()
 export class BoardEntity {
   @Prop()
+  _id: number;
+  @Prop()
   locked: boolean;
   @Prop()
   A1: string;

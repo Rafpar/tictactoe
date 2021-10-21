@@ -17,7 +17,7 @@ export class BoardImpl implements Board {
   ) {}
 
   async createBoard(gameSetupDto: GameSetupDto): Promise<BoardEntity> {
-    const createdBoard = this.boardRepository.createBoard();
+    const createdBoard = this.boardRepository.createBoard(gameSetupDto);
     const createdPlayers = this.playersRepository.createPlayers(gameSetupDto);
     if (await this.isBoardAlreadyCreated()) {
       return;
