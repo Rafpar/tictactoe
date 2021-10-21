@@ -5,4 +5,5 @@ export interface PlayersRepository {
   findPlayers(playersId: number);
   savePlayers(players);
   createPlayers(gameSetupDto: GameSetupDto);
+  getAllPlayers();
 }

@@ -1,7 +1,7 @@
 import {
   Body,
   Controller,
-  Delete,
+  Delete, Get,
   HttpStatus,
   Param,
   Post,
@@ -18,6 +18,11 @@ export class GameController {
     private readonly gameService: GameService,
     private readonly boardService: BoardService,
   ) {}
+
+  @Get('info')
+  async gameInfo(){
+    return this.gameService.getGameInfo();
+  }
 
   @Post('start')
   async create(
@@ -44,6 +49,7 @@ export class GameController {
     } else {
       await this.gameService.startGame(gameSetupDto);
       res.status(HttpStatus.CREATED).json({ message: 'Game started with id ' + gameSetupDto.id }).send();
+      return;
     }
   }
 
@@ -63,6 +69,7 @@ export class GameController {
         .status(HttpStatus.OK)
         .json({ message: 'Game with id ' + boardId + ' not started yet' })
         .send();
+      return;
     }
   }
 }

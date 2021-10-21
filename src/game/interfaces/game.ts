@@ -4,4 +4,5 @@ export interface Game {
   startGame(gameSetupDto: GameSetupDto);
   finishGame(boardId: number);
   isPlayersNamesTheSame(gameSetupDto: GameSetupDto);
+  getGameInfo();
 }

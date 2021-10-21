@@ -25,4 +25,7 @@ export class PlayersRepositoryImpl implements PlayersRepository {
   createPlayers(gameSetupDto: GameSetupDto) {
     return new this.playersModel(new CreatePlayersDto(gameSetupDto));
   }
+  async getAllPlayers(){
+    return await this.playersModel.find().exec();
+  }
 }

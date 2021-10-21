@@ -14,4 +14,8 @@ export class GameService {
   isPlayersNamesTheSame(gameSetupDto: GameSetupDto) {
     return this.gameImpl.isPlayersNamesTheSame(gameSetupDto);
   }
+
+  getGameInfo() {
+    return this.gameImpl.getGameInfo();
+  }
 }

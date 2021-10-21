@@ -20,4 +20,8 @@ export class PlayersService {
   async getPlayerSymbol(playerName: string, playersId: number): Promise<string> {
     return await this.playersImpl.getPlayerSymbol(playerName, playersId);
   }
+
+  async getAllPlayers(){
+    return await this.playersImpl.getAllPlayers();
+  }
 }

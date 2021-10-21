@@ -34,4 +34,7 @@ export class PlayersImpl implements Players {
       }
     }
   }
+  async getAllPlayers(){
+    return await this.playersRepository.getAllPlayers();
+  }
 }
