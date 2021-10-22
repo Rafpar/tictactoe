@@ -46,7 +46,7 @@ To play a game use endpoints available here:
 [http://localhost:3000/api/](http://localhost:3000/api/)
 
 To display board in browser go to the:
-[http://localhost:3000/board](http://localhost:3000/board)
+[http://localhost:3000/board/{boardId}](http://localhost:3000/board)
 
 ## Author
 
